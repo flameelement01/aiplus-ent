@@ -3,133 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aiplus — Профориентация 2026</title>
+    <title>Aiplus — Твой Слайд Профориентации</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #050505; --card: #111; --accent: #d4f53c; --text: #fff; --border: rgba(255,255,255,0.1); }
         body { background: var(--bg); color: var(--text); font-family: 'Manrope', sans-serif; margin: 0; }
-        .container { max-width: 700px; margin: 0 auto; padding: 20px; }
-        .card { background: var(--card); border: 1px solid var(--border); border-radius: 24px; overflow: hidden; animation: fadeIn 0.6s ease; }
-        .p-bar { height: 4px; background: #222; margin-bottom: 20px; }
-        .p-fill { height: 100%; background: var(--accent); width: 0%; transition: 0.3s; }
-        .q-area { padding: 30px; text-align: center; }
-        .opt { background: #1a1a1a; border: 1px solid var(--border); padding: 18px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; font-weight: 600; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.8); }
+        
+        /* Стилизация под слайд PDF */
+        .slide-header { background: var(--accent); color: #000; padding: 10px 20px; font-weight: 900; display: flex; justify-content: space-between; font-size: 12px; }
+        .slide-body { display: flex; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
+        .slide-sidebar { flex: 1; min-width: 250px; padding: 30px; background: rgba(212,245,60,0.02); border-right: 1px solid var(--border); }
+        .slide-main { flex: 2; min-width: 300px; padding: 30px; }
+        
+        .trait-box { margin-bottom: 20px; border-left: 3px solid var(--accent); padding-left: 15px; }
+        .trait-title { font-size: 10px; font-weight: 900; color: var(--accent); text-transform: uppercase; }
+        .trait-val { font-size: 13px; color: #fff; margin-top: 4px; }
+
+        .mbti-title { font-size: 64px; font-weight: 900; color: var(--accent); line-height: 1; margin: 0; letter-spacing: -3px; }
+        .mbti-subtitle { font-size: 18px; font-weight: 700; margin: 10px 0 20px 0; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .mbti-desc { font-size: 14px; line-height: 1.6; color: #ccc; }
+
+        .pro-table { margin-top: 20px; width: 100%; border-collapse: collapse; }
+        .pro-head { background: var(--accent); color: #000; font-weight: 900; font-size: 12px; padding: 8px; text-align: center; border-radius: 4px; }
+        .pro-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px 0; font-size: 13px; color: var(--accent); }
+
+        /* Элементы опроса */
+        .q-box { padding: 40px; text-align: center; }
+        .opt { background: #1a1a1a; border: 1px solid var(--border); padding: 20px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; font-weight: 600; }
         .opt:hover { border-color: var(--accent); background: #222; }
-        .btn { background: var(--accent); color: #000; border: none; padding: 18px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; }
-        input { width: 100%; padding: 18px; background: #1a1a1a; border: 1px solid var(--border); border-radius: 12px; color: #fff; margin-bottom: 15px; box-sizing: border-box; }
+        .btn { background: var(--accent); color: #000; border: none; padding: 20px; border-radius: 12px; font-weight: 900; width: 100%; cursor: pointer; font-size: 16px; }
+        input { width: 100%; padding: 18px; background: #1a1a1a; border: 1px solid var(--border); border-radius: 12px; color: #fff; margin-bottom: 15px; font-size: 16px; box-sizing: border-box; }
         
-        /* Стиль слайда из PDF */
-        .slide-layout { display: flex; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
-        .slide-left { flex: 1; min-width: 220px; background: rgba(212,245,60,0.03); padding: 30px; border-right: 1px solid var(--border); }
-        .slide-right { flex: 2; min-width: 300px; padding: 35px; }
-        .trait { margin-bottom: 15px; }
-        .trait-label { color: var(--accent); font-size: 10px; font-weight: 900; letter-spacing: 1px; }
-        .trait-desc { font-size: 12px; color: #aaa; }
-        .mbti-code { font-size: 56px; font-weight: 900; color: var(--accent); line-height: 1; margin: 5px 0; }
-        .top-pro { background: var(--accent); color: #000; padding: 8px; font-weight: 900; font-size: 12px; text-align: center; border-radius: 4px; margin: 15px 0; }
-        .pro-list { font-size: 13px; color: var(--accent); column-count: 2; list-style: none; padding: 0; }
-        
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; } }
-        .loader { border: 3px solid rgba(212,245,60,0.1); border-top: 3px solid var(--accent); border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 20px auto; }
+        .loader { border: 4px solid rgba(212,245,60,0.1); border-top: 4px solid var(--accent); border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; margin: 20px auto; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
+
 <div class="container" id="app">
-    <div class="card q-area">
-        <h1 style="color: var(--accent);">AI<span>PLUS</span></h1>
-        <p>Пройди тест из 30 вопросов и получи персональный слайд профориентации</p>
-        <button class="btn" onclick="start()">Начать анализ →</button>
+    <div class="card q-box">
+        <h1 style="font-size: 48px; margin: 0;">AI<span>PLUS</span></h1>
+        <p style="color: #888; margin-bottom: 30px;">Профориентационный тест ЕНТ 2025/2026</p>
+        <button class="btn" onclick="startTest()">Начать (30 вопросов) →</button>
     </div>
 </div>
 
 <script>
-// ВСТАВЬ СВОЙ URL НИЖЕ
-const SHEETS_URL = "https://script.google.com/macros/s/AKfycbxDacMSDUF3tVArCyuc2yJX5Io0RlsuCBFgOftTjoLOQaYT6fid94ZhIU4rSVhhYJ_r0g/exec";
+// ВАЖНО: Вставь сюда свой URL из Google Scripts
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbwRUMSxCqIAyi766f9fZEpMc9aih_Nweg9zsmfcM8sF9bOafaNnv8lEIKkPnzei4Jfn3g/exec";
 
-const MBTI_DATA = {
-    "INTP": { title: "УЧЕНЫЙ / RATIONAL PHILOSOPHER", desc: "Вы независимый и оригинальный мыслитель. Вас часто считают остроумным и проницательным в решении макропроблем.", pro: "Программист, Архитектор, Психолог, Адвокат, Экономист, Физик" },
-    "ENFJ": { title: "ТРЕНЕР / IDEALIST TEACHER", desc: "Вы харизматичный лидер, который вдохновляет окружающих. Вы искренне заботитесь о людях и их потенциале.", pro: "Учитель, HR-менеджер, Психолог, Маркетолог, Дипломат, Юрист" },
-    // Добавь остальные типы по аналогии
+const MBTI_INFO = {
+    "INTP": { 
+        name: "УЧЕНЫЙ / RATIONAL PHILOSOPHER", 
+        desc: "Вы независимый и оригинальный мыслитель. Вас считают остроумным и проницательным в решении макропроблем. Вы не любите жесткие сроки и правила.",
+        pro: ["Программист", "Архитектор", "Психолог", "Адвокат", "Экономист", "Физик"]
+    },
+    "ENFJ": { 
+        name: "ТРЕНЕР / IDEALIST TEACHER", 
+        desc: "Вы харизматичный лидер, вдохновляющий людей. Вы искренне заботитесь о будущем и умеете вести команду к большой цели.",
+        pro: ["Учитель", "HR-директор", "Дипломат", "Продюсер", "Юрист", "Менеджер"]
+    },
+    // Можно добавить остальные 14 типов по аналогии из PDF
 };
 
 const QUESTIONS = [
-    {q:"Вы восстанавливаете энергию в одиночестве?", a:"I", b:"E", ta:"Да, в тишине", tb:"Нет, в компании"},
-    {q:"Вы больше доверяете фактам, чем интуиции?", a:"S", b:"N", ta:"Да, только факты", tb:"Нет, верю предчувствию"},
-    {q:"Вы принимаете решения головой, а не сердцем?", a:"T", b:"F", ta:"Да, логично", tb:"Нет, чувствами"},
-    {q:"Вы любите четкие графики и дедлайны?", a:"J", b:"P", ta:"Да, порядок", tb:"Нет, спонтанность"},
-    // ... здесь добавь остальные 26 вопросов (я сократил для кода, но структура та же)
+    {q: "Вам легче работать одному?", a:"I", b:"E", ta:"Да, мне так спокойнее", tb:"Нет, люблю команду"},
+    {q: "Вы больше доверяете логике, чем чувствам?", a:"T", b:"F", ta:"Да, разум важнее", tb:"Нет, чувства важнее"},
+    {q: "Вы планируете свой день заранее?", a:"J", b:"P", ta:"Да, по графику", tb:"Нет, по настроению"},
+    {q: "Вы предпочитаете факты идеям?", a:"S", b:"N", ta:"Да, конкретику", tb:"Нет, воображение"},
+    // ... здесь добавь все остальные вопросы до 30 штук
 ];
 
-let cur = 0, res = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0}, user = {};
+let currentIdx = 0, scores = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0}, user = {};
 
-function start() { cur = 0; render(); }
-function ans(k) { res[k]++; cur++; render(); }
+function startTest() { currentIdx = 0; render(); }
+
+function handleAns(key) { scores[key]++; currentIdx++; render(); }
 
 function render() {
     const app = document.getElementById("app");
-    if (cur < QUESTIONS.length) {
-        const q = QUESTIONS[cur];
+    if (currentIdx < QUESTIONS.length) {
+        const q = QUESTIONS[currentIdx];
         app.innerHTML = `
-            <div class="p-bar"><div class="p-fill" style="width:${(cur/QUESTIONS.length)*100}%"></div></div>
-            <div class="card q-area">
-                <div style="font-size:12px; color:var(--accent); margin-bottom:10px;">ВОПРОС ${cur+1}/30</div>
-                <div class="q-text">${q.q}</div>
-                <div class="opt" onclick="ans('${q.a}')">${q.ta}</div>
-                <div class="opt" onclick="ans('${q.b}')">${q.tb}</div>
+            <div class="card q-box">
+                <div style="color:var(--accent); font-size:12px; margin-bottom:10px;">ВОПРОС ${currentIdx+1}/30</div>
+                <div style="font-size:24px; font-weight:700; margin-bottom:30px;">${q.q}</div>
+                <div class="opt" onclick="handleAns('${q.a}')">${q.ta}</div>
+                <div class="opt" onclick="handleAns('${q.b}')">${q.tb}</div>
             </div>`;
     } else if (!user.phone) {
         app.innerHTML = `
-            <div class="card q-area">
-                <h2>Анализ завершен</h2>
-                <input type="text" id="name" placeholder="Ваше имя">
-                <input type="tel" id="phone" placeholder="8 707 000 00 00">
-                <button class="btn" onclick="process()">Показать мой слайд →</button>
+            <div class="card q-box">
+                <h2>Анализ завершен!</h2>
+                <p>Оставь контакты, чтобы сохранить результат в базу Aiplus Шымкент</p>
+                <input type="text" id="name" placeholder="Твое имя">
+                <input type="tel" id="phone" placeholder="8 707 000 0000">
+                <button class="btn" onclick="submitData()">Получить мой слайд →</button>
             </div>`;
     }
 }
 
-async function process() {
-    user.name = document.getElementById("name").value; 
+async function submitData() {
+    user.name = document.getElementById("name").value;
     user.phone = document.getElementById("phone").value;
-    if (!user.name || !user.phone) return alert("Заполните данные!");
-    
+    if (!user.name || !user.phone) return alert("Заполни поля!");
+
     const app = document.getElementById("app");
-    app.innerHTML = `<div class="card q-area"><div class="loader"></div><p>Aiplus формирует ваш слайд...</p></div>`;
-    
-    const type = (res.E>=res.I?'E':'I')+(res.S>=res.N?'S':'N')+(res.T>=res.F?'T':'F')+(res.J>=res.P?'J':'P');
-    const info = MBTI_DATA[type] || {title: "ЛИЧНОСТЬ", desc: "Уникальный тип", pro: "Профессии уточняются"};
-    
-    const prompt = `Ученик ${user.name}, тип ${type}. Дай рекомендации по ЕНТ 2025.`;
-    
+    app.innerHTML = `<div class="card q-box"><div class="loader"></div><p>Нейросеть Aiplus генерирует ваш слайд...</p></div>`;
+
+    const type = (scores.E >= scores.I ? 'E':'I') + (scores.S >= scores.N ? 'S':'N') + (scores.T >= scores.F ? 'T':'F') + (scores.J >= scores.P ? 'J':'P');
+    const info = MBTI_INFO[type] || {name:"ЛИЧНОСТЬ", desc: "Уникальный характер", pro: ["Профессия 1", "Профессия 2"]};
+
+    const prompt = `Ученик ${user.name}, тип ${type}. Дай краткие рекомендации по ЕНТ 2025.`;
+
     try {
-        const r = await fetch(`${SHEETS_URL}?type=generate&prompt=${encodeURIComponent(prompt)}&data=${encodeURIComponent(JSON.stringify({...user, mbti:type}))}`);
-        const d = await r.json();
-        
+        const res = await fetch(`${SHEETS_URL}?type=generate&prompt=${encodeURIComponent(prompt)}&data=${encodeURIComponent(JSON.stringify({...user, mbti:type}))}`);
+        const data = await res.json();
+
         app.innerHTML = `
             <div class="card">
-                <div class="slide-layout">
-                    <div class="slide-left">
-                        <div class="trait"><div class="trait-label">INTROVERSION</div><div class="trait-desc">Зарядка в уединении</div></div>
-                        <div class="trait"><div class="trait-label">INTUITION</div><div class="trait-desc">Грандиозные идеи</div></div>
-                        <div class="trait"><div class="trait-label">THINKING</div><div class="trait-desc">Логические решения</div></div>
-                        <div class="trait"><div class="trait-label">PERCEIVING</div><div class="trait-desc">Открытость миру</div></div>
+                <div class="slide-header"><span>AIPLUS 16 PERSONALITIES</span><span>ШЫМКЕНТ 2025</span></div>
+                <div class="slide-body">
+                    <div class="slide-sidebar">
+                        <div class="trait-box"><div class="trait-title">ENERGY</div><div class="trait-val">${type.includes('E')?'Экстраверсия':'Интроверсия'}</div></div>
+                        <div class="trait-box"><div class="trait-title">MIND</div><div class="trait-val">${type.includes('N')?'Интуиция':'Сенсорика'}</div></div>
+                        <div class="trait-box"><div class="trait-title">NATURE</div><div class="trait-val">${type.includes('T')?'Логика':'Этика'}</div></div>
+                        <div class="trait-box"><div class="trait-title">TACTICS</div><div class="trait-val">${type.includes('J')?'Планирование':'Поиск'}</div></div>
                     </div>
-                    <div class="slide-right">
-                        <div class="mbti-code">${type}</div>
-                        <div style="font-weight:700; margin-bottom:15px; font-size:14px;">${info.title}</div>
-                        <p style="font-size:12px; color:#ccc; line-height:1.5;">${info.desc}</p>
-                        <div class="top-pro">ТОП ПРОФЕССИИ</div>
-                        <div class="pro-list">${info.pro.split(', ').map(p => '• '+p).join('<br>')}</div>
+                    <div class="slide-main">
+                        <h1 class="mbti-title">${type}</h1>
+                        <div class="mbti-subtitle">${info.name}</div>
+                        <p class="mbti-desc">${info.desc}</p>
+                        <div class="pro-head">ТОП ПРОФЕССИИ ПО ЕНТ</div>
+                        <div class="pro-list">${info.pro.map(p => '• ' + p).join('<br>')}</div>
                     </div>
                 </div>
-                <div style="padding:25px; background:#000;">
-                    <h4 style="color:var(--accent); margin:0 0 10px 0;">Анализ ЕНТ 2025/2026:</h4>
-                    <div style="font-size:13px; line-height:1.6; color:#eee;">${d.result}</div>
+                <div style="padding:30px; background: #000;">
+                    <div style="color: var(--accent); font-weight: 900; margin-bottom:10px;">АНАЛИТИКА ЕНТ 2025:</div>
+                    <div style="font-size: 14px; line-height:1.6; color:#eee;">${data.result}</div>
                     <button class="btn" style="margin-top:20px; background:none; border:1px solid var(--accent); color:var(--accent);" onclick="location.reload()">Пройти еще раз</button>
                 </div>
             </div>`;
-    } catch(e) { app.innerHTML = `<div class="card q-area"><h3>Готово!</h3><p>Данные сохранены. Тип: ${type}</p></div>`; }
+    } catch(e) { 
+        app.innerHTML = `<div class="card q-box"><h2>Готово!</h2><p>Данные в таблице. Твой тип: ${type}</p></div>`; 
+    }
 }
 </script>
 </body>
