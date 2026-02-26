@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aiplus Профориентация — Тип личности и ЕНТ 2025</title>
+<meta name="description" content="Бесплатный профориентационный тест на основе MBTI. 40 вопросов, результат с уникальной ссылкой, рекомендации по ЕНТ 2025 и вузам Казахстана.">
+<meta property="og:title" content="Aiplus — Профориентационный тест ЕНТ 2025">
+<meta property="og:description" content="Узнай свой тип личности и получи подборку профессий + вузов РК с проходными баллами">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f8f6f1;
+  --dark: #111111;
+  --card: #ffffff;
+  --accent: #c8f03c;
+  --accent-dark: #a8d020;
+  --muted: #666;
+  --border: rgba(0,0,0,0.09);
+  --radius: 20px;
+  --shadow: 0 2px 24px rgba(0,0,0,0.07);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--dark);font-family:'Inter',sans-serif;min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--dark);color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;}
+.logo{font-family:'Syne',sans-serif;font-weight:900;font-size:20px;letter-spacing:-1px;}
+.logo span{color:var(--accent);}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.badge{background:var(--accent);color:#000;font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:0.3px;}
+
+/* ── CONTAINER ── */
+.container{max-width:820px;margin:0 auto;padding:24px 16px 80px;}
+
+/* ── PROGRESS ── */
+.prog-wrap{height:4px;background:rgba(0,0,0,0.08);border-radius:4px;margin:20px 0 6px;}
+.prog-fill{height:4px;background:var(--dark);border-radius:4px;transition:width 0.4s ease;}
+.prog-label{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:18px;display:flex;justify-content:space-between;}
+
+/* ── WELCOME ── */
+.welcome-hero{padding:48px 0 32px;text-align:center;}
+.hero-tag{display:inline-flex;align-items:center;gap:6px;background:var(--dark);color:var(--accent);font-size:11px;font-weight:700;padding:6px 14px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px;}
+.hero-title{font-family:'Syne',sans-serif;font-size:clamp(36px,7vw,64px);font-weight:900;line-height:1.0;letter-spacing:-2px;margin-bottom:20px;}
+.hero-title .hl{color:var(--accent);background:var(--dark);padding:2px 14px;border-radius:10px;display:inline-block;}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.7;max-width:460px;margin:0 auto 36px;}
+
+.stats-strip{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:36px;}
+.stat-chip{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 20px;text-align:center;min-width:90px;}
+.stat-num{font-family:'Syne',sans-serif;font-size:24px;font-weight:900;}
+.stat-lbl{font-size:11px;color:var(--muted);font-weight:600;margin-top:2px;}
+
+.btn-primary{background:var(--dark);color:var(--accent);border:none;padding:20px 48px;border-radius:50px;font-family:'Syne',sans-serif;font-size:15px;font-weight:800;cursor:pointer;display:inline-block;transition:transform .2s,box-shadow .2s;letter-spacing:0;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,0.18);}
+
+/* ── TRUST BLOCK ── */
+.trust-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:40px;}
+.trust-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:left;}
+.trust-icon{font-size:22px;margin-bottom:10px;}
+.trust-title{font-weight:700;font-size:14px;margin-bottom:4px;}
+.trust-desc{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* why section */
+.why-block{background:var(--dark);color:#fff;border-radius:20px;padding:28px;margin:24px 0;}
+.why-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:16px;color:var(--accent);}
+.why-list{display:flex;flex-direction:column;gap:10px;}
+.why-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.6;color:#ccc;}
+.why-dot{width:6px;height:6px;background:var(--accent);border-radius:50%;flex-shrink:0;margin-top:6px;}
+
+/* ── QUESTION ── */
+.q-card{background:var(--card);border-radius:var(--radius);padding:40px 36px;border:1px solid var(--border);box-shadow:var(--shadow);}
+.q-dim{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;}
+.q-text{font-family:'Syne',sans-serif;font-size:clamp(18px,3vw,23px);font-weight:800;line-height:1.35;margin-bottom:30px;letter-spacing:-0.3px;}
+.opts{display:flex;flex-direction:column;gap:10px;}
+.opt-btn{background:#f5f3ee;border:2px solid transparent;border-radius:14px;padding:18px 22px;text-align:left;cursor:pointer;font-family:'Inter',sans-serif;font-size:14px;font-weight:600;color:var(--dark);transition:all .18s;display:flex;align-items:center;gap:12px;}
+.opt-btn:hover{border-color:var(--dark);background:#fff;transform:translateX(4px);}
+.opt-btn:active{background:var(--dark);color:var(--accent);}
+.opt-let{display:flex;align-items:center;justify-content:center;background:var(--dark);color:var(--accent);border-radius:8px;width:30px;height:30px;font-size:12px;font-weight:900;flex-shrink:0;}
+
+/* ── CONTACT FORM ── */
+.form-card{background:var(--card);border-radius:var(--radius);padding:40px;border:1px solid var(--border);text-align:center;box-shadow:var(--shadow);}
+.form-tag{display:inline-block;background:#e8f5e0;color:#2d7d46;font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;margin-bottom:16px;}
+.form-title{font-family:'Syne',sans-serif;font-size:26px;font-weight:900;letter-spacing:-0.5px;margin-bottom:8px;}
+.form-sub{color:var(--muted);margin-bottom:28px;font-size:14px;line-height:1.7;}
+.inp{width:100%;padding:16px 18px;background:#f5f3ee;border:2px solid transparent;border-radius:12px;font-family:'Inter',sans-serif;font-size:15px;color:var(--dark);margin-bottom:12px;transition:border .2s;}
+.inp:focus{outline:none;border-color:var(--dark);background:#fff;}
+.btn-submit{background:var(--dark);color:var(--accent);border:none;width:100%;padding:18px;border-radius:12px;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;cursor:pointer;transition:opacity .2s;}
+.btn-submit:hover{opacity:.88;}
+.btn-submit:disabled{opacity:.5;cursor:not-allowed;}
+.privacy{font-size:11px;color:var(--muted);margin-top:12px;}
+
+/* ── LOADER ── */
+.loader-wrap{text-align:center;padding:80px 20px;}
+.spinner{width:48px;height:48px;border:4px solid rgba(0,0,0,0.1);border-top-color:var(--dark);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 24px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loader-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:6px;}
+.loader-sub{color:var(--muted);font-size:14px;}
+
+/* ── RESULT ── */
+.result-wrap{animation:fadeUp .5s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+
+/* Share bar — sticky at top after scroll */
+.share-bar{background:var(--dark);border-radius:16px;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:20px;}
+.share-label{color:#fff;font-size:13px;font-weight:600;flex:1;min-width:160px;}
+.share-label span{color:var(--accent);}
+.share-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-copy{background:var(--accent);color:#000;border:none;padding:9px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
+.btn-copy:hover{opacity:.85;}
+.btn-wa{background:#25D366;color:#fff;border:none;padding:9px 16px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;transition:opacity .2s;white-space:nowrap;}
+.btn-wa:hover{opacity:.85;}
+.copy-done{background:#7bc67e!important;}
+
+/* Personality slide */
+.slide{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 40px rgba(0,0,0,0.1);margin-bottom:20px;}
+.slide-top{padding:13px 26px;display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:700;letter-spacing:1px;color:#fff;}
+.slide-body{display:flex;background:#fff;flex-wrap:wrap;}
+.slide-left{flex:0 0 250px;padding:28px 24px;background:#fafafa;border-right:1px solid var(--border);}
+.slide-right{flex:1;min-width:260px;padding:28px 24px;}
+.mbti-big{font-family:'Syne',sans-serif;font-size:68px;font-weight:900;line-height:1;letter-spacing:-4px;margin-bottom:6px;}
+.mbti-name{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:14px;}
+.mbti-desc{font-size:13px;line-height:1.7;color:#444;margin-bottom:18px;}
+.trait-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.trait-item{background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px;}
+.trait-en{font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:1px;}
+.trait-ru{font-size:12px;color:var(--dark);margin-top:3px;font-weight:600;}
+.trait-sub{font-size:10px;color:var(--muted);margin-top:2px;}
+.pro-section{margin-bottom:20px;}
+.pro-label{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:1px;color:#fff;padding:7px 13px;border-radius:8px;display:inline-block;margin-bottom:10px;}
+.pro-list{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.pro-item{font-size:12px;color:#444;font-weight:600;padding:6px 9px;background:#f5f3ee;border-radius:6px;}
+.score-bars{margin-top:18px;padding-top:16px;border-top:1px solid var(--border);}
+.bar-label{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;}
+
+/* subjects */
+.section-card{background:var(--card);border-radius:var(--radius);padding:26px;border:1px solid var(--border);margin-bottom:20px;box-shadow:var(--shadow);}
+.sec-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;letter-spacing:-0.3px;margin-bottom:4px;}
+.sec-sub{font-size:13px;color:var(--muted);margin-bottom:18px;}
+
+.oblig-box{background:#f0f9e8;border:1px solid #c0e8a0;border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:13px;}
+.oblig-box b{color:#2d7d46;}
+
+.pair-card{border:2px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;transition:border-color .2s;}
+.pair-card.top{border-color:var(--dark);background:#fafafa;}
+.pair-header{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px;}
+.pair-tag{font-size:11px;font-weight:800;padding:5px 11px;border-radius:20px;}
+.pair-tag.main{background:var(--dark);color:var(--accent);}
+.pair-tag.alt{background:#f0f0f0;color:#555;}
+.pair-subjects{display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.pair-subj{font-size:14px;font-weight:700;}
+.pair-plus{font-size:16px;color:#bbb;}
+.pair-prof{font-size:12px;color:#555;padding-left:2px;}
+
+/* universities */
+.uni-card{border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;transition:box-shadow .2s;}
+.uni-card:hover{box-shadow:0 4px 20px rgba(0,0,0,0.07);}
+.uni-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
+.uni-name{font-weight:700;font-size:15px;}
+.uni-city{font-size:12px;color:var(--muted);margin-top:2px;}
+.score-pills{display:flex;flex-direction:column;gap:4px;align-items:flex-end;}
+.pill-threshold{background:#fff3d0;color:#7a4800;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.pill-grant{background:var(--dark);color:var(--accent);font-size:11px;font-weight:900;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+.uni-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.uni-tag{font-size:11px;background:#f0f0f0;color:#444;padding:3px 9px;border-radius:20px;font-weight:600;}
+.uni-tip{font-size:12px;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px solid var(--border);}
+
+/* scale */
+.scale-zones{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-top:14px;}
+.zone{border-radius:10px;padding:12px;text-align:center;}
+.zone-score{font-family:'Syne',sans-serif;font-size:17px;font-weight:900;}
+.zone-label{font-size:11px;font-weight:600;margin-top:3px;}
+.z-red{background:#ffe8e0;color:#c03000;}
+.z-orange{background:#fff3d0;color:#7a4800;}
+.z-green{background:#e0f5e8;color:#006030;}
+.z-blue{background:#e0eeff;color:#003090;}
+
+/* AI block */
+.ai-block{background:var(--dark);color:#fff;border-radius:var(--radius);padding:26px;margin-bottom:20px;}
+.ai-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.ai-dot{width:9px;height:9px;background:var(--accent);border-radius:50%;animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+.ai-ttl{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;}
+.ai-body{font-size:14px;line-height:1.8;color:#ccc;white-space:pre-wrap;}
+
+/* CTA */
+.cta-block{background:var(--accent);border-radius:var(--radius);padding:28px;text-align:center;margin-bottom:20px;}
+.cta-title{font-family:'Syne',sans-serif;font-size:22px;font-weight:900;letter-spacing:-0.5px;margin-bottom:8px;}
+.cta-sub{font-size:14px;color:#333;margin-bottom:20px;line-height:1.6;}
+.btn-wa-big{background:var(--dark);color:var(--accent);text-decoration:none;padding:16px 32px;border-radius:50px;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;display:inline-block;transition:transform .2s;}
+.btn-wa-big:hover{transform:translateY(-2px);}
+
+.restart-btn{background:transparent;border:2px solid var(--dark);color:var(--dark);padding:14px 32px;border-radius:50px;font-family:'Syne',sans-serif;font-size:13px;font-weight:700;cursor:pointer;display:block;margin:0 auto 40px;transition:all .2s;}
+.restart-btn:hover{background:var(--dark);color:var(--accent);}
+
+/* disclaimer */
+.disclaimer{font-size:12px;color:#888;padding:14px;background:#f5f3ee;border-radius:10px;line-height:1.7;}
+
+/* Error */
+.error-card{background:var(--card);border-radius:var(--radius);padding:40px;text-align:center;border:1px solid var(--border);}
+
+@media(max-width:580px){
+  .slide-left{flex:0 0 100%;border-right:none;border-bottom:1px solid var(--border);}
+  .mbti-big{font-size:52px;}
+  .q-card{padding:28px 18px;}
+  .form-card{padding:28px 18px;}
+  .share-bar{flex-direction:column;align-items:flex-start;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">AI<span>PLUS</span></div>
+  <div class="topbar-right">
+    <div class="badge">MBTI × ЕНТ 2025</div>
+  </div>
+</div>
+
+<div class="container" id="app"></div>
+
+<script>
+const SHEETS_URL = "https://script.google.com/macros/s/AKfycbxKKpHbuJNJHUkXgY96wKD8XeVRWW0W9j7Q9XpHLUCxXyOT85Vi5GTXH_CLbR3ELVWnKw/exec";
+const SITE_URL = window.location.origin + window.location.pathname;
+
+const MBTI_INFO = {
+  "INTP": {
+    name: "RATIONAL PHILOSOPHER", ruName: "УЧЁНЫЙ", color: "#6c4fa3",
+    traits: [{en:"INTROVERSION",ru:"Интроверсия",sub:"Заряжаетесь в уединении"},{en:"INTUITION",ru:"Интуитивный",sub:"Теории и грандиозные идеи"},{en:"THINKING",ru:"Мыслящий",sub:"Логичные и объективные решения"},{en:"PERCEIVING",ru:"Ищущий",sub:"Спонтанны и открыты"}],
+    desc: "Вы независимый и оригинальный мыслитель, придумывающий творческие решения проблем. Вас считают остроумным в решении макропроблем. Предпочитаете работать независимо и гибко.",
+    pro: ["Программист","Разработчик ПО","Архитектор","Биомедицинский инженер","Инженер-химик","Экономист","Физик","Психолог","Адвокат","Финансовый аналитик"],
+    uniKey: "IT",
+    entPairs: [
+      { s1:"📐 Математика", s2:"💻 Информатика", label:"Программист / Разработчик ПО / IT-специальности" },
+      { s1:"📐 Математика", s2:"⚡ Физика", label:"Инженер / Архитектор / Физик" },
+      { s1:"🧪 Химия", s2:"⚡ Физика", label:"Биомедицинский инженер / Инженер-химик" }
+    ]
+  },
+  "INTJ": {
+    name: "RATIONAL STRATEGIST", ruName: "СТРАТЕГ", color: "#6c4fa3",
+    traits: [{en:"INTROVERSION",ru:"Интроверсия",sub:"Заряжаетесь в уединении"},{en:"INTUITION",ru:"Интуитивный",sub:"Теории и грандиозные идеи"},{en:"THINKING",ru:"Мыслящий",sub:"Логичные и объективные решения"},{en:"JUDGING",ru:"Планирующий",sub:"Организованны, придерживаетесь расписания"}],
+    desc: "Вы спокойная, целеустремлённая и проницательная личность. Дальновидный концептуальный мыслитель, разбирающийся в глобальных вопросах. У вас критический склад ума.",
+    pro: ["Бухгалтер/Аудитор","Финансовый аналитик","Логист","Маркетолог","Математик","Биохимик","Разработчик ПО","Политолог","Фармацевт","Юрист"],
+    uniKey: "Математика",
+    entPairs: [
+      { s1:"📐 Математика", s2:"⚡ Физика", label:"Инженерия / Точные науки / Математик" },
+      { s1:"📐 Математика", s2:"💻 Информатика", label:"Разработчик ПО / IT / Аналитик" },
+      { s1:"🧪 Химия", s2:"⚡ Физика", label:"Биохимик / Фармацевт / Инженер-химик" }
+    ]
+  },
+  "ENTP": {
+    name: "RATIONAL INVENTOR", ruName: "ПОЛЕМИСТ", color: "#6c4fa3",
+    traits: [{en:"EXTROVERSION",ru:"Экстраверсия",sub:"Знакомитесь с новыми людьми"},{en:"INTUITION",ru:"Интуитивный",sub:"Теории и грандиозные идеи"},{en:"THINKING",ru:"Мыслящий",sub:"Логичные и объективные решения"},{en:"PERCEIVING",ru:"Ищущий",sub:"Спонтанны и открыты"}],
+    desc: "Вы социальная, активная и целеустремлённая личность. Способны анализировать потенциал стратегически и придумывать творческие решения.",
+    pro: ["Финансовый аналитик","Маркетолог","Таргетолог","Архитектор","Инженер-строитель","Веб-разработчик","Психолог","Экономист","Врач","Адвокат"],
+    uniKey: "IT",
+    entPairs: [
+      { s1:"📐 Математика", s2:"⚡ Физика", label:"Архитектор / Инженер-строитель" },
+      { s1:"📐 Математика", s2:"💻 Информатика", label:"Веб-разработчик / IT / Аналитик" },
+      { s1:"🌍 Всемирная история", s2:"⚖️ Основы права", label:"Адвокат / Экономист / Маркетолог" }
+    ]
+  },
+  "ENTJ": {
+    name: "RATIONAL COMMANDER", ruName: "КОМАНДИР", color: "#6c4fa3",
+    traits: [{en:"EXTROVERSION",ru:"Экстраверсия",sub:"Знакомитесь с новыми людьми"},{en:"INTUITION",ru:"Интуитивный",sub:"Теории и грандиозные идеи"},{en:"THINKING",ru:"Мыслящий",sub:"Логичные и объективные решения"},{en:"JUDGING",ru:"Планирующий",sub:"Организованны, придерживаетесь расписания"}],
+    desc: "Вы расчётливая личность, целенаправленная на достижение задач. Любите брать ответственность, организовывать людей и ресурсы.",
+    pro: ["Бухгалтер","Финансовый аналитик","Маркетолог","Менеджер по продажам","Политолог","Психолог","Разработчик ПО","Дизайнер","Врач","Юрист"],
+    uniKey: "Экономика",
+    entPairs: [
+      { s1:"📐 Математика", s2:"💻 Информатика", label:"IT / Разработчик ПО / Бизнес-аналитик" },
+      { s1:"🌍 Всемирная история", s2:"⚖️ Основы права", label:"Юрист / Политолог / Менеджер" },
+      { s1:"📐 Математика", s2:"🌏 География", label:"Экономист / Финансовый аналитик" }
+    ]
+  },
+  "INFP": {
+    name: "IDEALIST HEALER", ruName: "ПОСРЕДНИК", color: "#2d7d46",
+    traits: [{en:"INTROVERSION",ru:"Интроверсия",sub:"Заряжаетесь в уединении"},{en:"INTUITION",ru:"Интуитивный",sub:"Теории и грандиозные идеи"},{en:"FEELING",ru:"Чувствующий",sub:"Решения на основе ценностей"},{en:"PERCEIVING",ru:"Ищущий",sub:"Спонтанны и открыты"}],
+    desc: "Вы спокойный, заботливый и вдохновляющий человек, стремящийся к тому, чтобы мир стал лучше. Придерживаетесь ключевых ценностей и стремитесь к гармонии.",
+    pro: ["Фотограф","PR менеджер","Писатель","Психолог","Социолог","Диетолог","Учитель","Логопед","Ветеринар","Журналист"],
+    uniKey: "Биология",
+    entPairs: [
+      { s1:"🧬 Биология", s2:"🧪 Химия", label:"Ветеринар / Диетолог / Медицинские специальности" },
+      { s1:"🧬 Биология", s2:"🌏 География", label:"Эколог / Биолог / Природоохрана" },
+      { s1:"🇰🇿 Казахский/Русский язык", s2:"📖 Казахская/Русская литература", label:"Журналист / Писатель / Учитель языка" }
+    ]
+  },
+  "INFJ": {
+    name: "IDEALIST COUNSELOR", ruName: "АКТИВИСТ", color: "#2d7d46",
+    traits: [{en:"INTROVERSION",ru:"Интроверсия",sub:"Заряжаетесь в уединении"},{en:"INTUITION",ru:"Интуитивный",sub:"Теории и грандиозные идеи"},{en:"FEELING",ru:"Чувствующий",sub:"Решения на основе ценностей"},{en:"JUDGING",ru:"Планирующий",sub:"Организованны, придерживаетесь расписания"}],
+    desc: "Вы проницательный и яркий человек, понимающий сложность взаимоотношений. Желаете посвятить себя делу, которое искренне интересует.",
+    pro: ["Физиотерапевт","Семейный врач","Психиатр","Клинический психолог","Логопед","Социолог","HR","Учитель","Генетик","Адвокат"],
+    uniKey: "Биология",
+    entPairs: [
+      { s1:"🧬 Биология", s2:"🧪 Химия", label:"Врач / Фармацевт / Генетик / Физиотерапевт" },
+      { s1:"🌍 Всемирная история", s2:"⚖️ Основы права", label:"Адвокат / Психолог / Социолог / HR" },
+      { s1:"🧬 Биология", s2:"🌏 География", label:"Эколог / Биолог" }
+    ]
+  },
+  "ENFP": {
+    name: "IDEALIST CHAMPION", ruName: "БОРЕЦ", color: "#2d7d46",
+    traits: [{en:"EXTROVERSION",ru:"Экстраверсия",sub:"Знакомитесь с новыми людьми"},{en:"INTUITION",ru:"Интуитивный",sub:"Теории и грандиозные идеи"},{en:"FEELING",ru:"Чувствующий",sub:"Решения на основе ценностей"},{en:"PERCEIVING",ru:"Ищущий",sub:"Спонтанны и открыты"}],
+    desc: "Вы воспринимаете жизнь как захватывающее приключение. Энергичный и полный энтузиазма человек, остро чувствующий как мыслят люди.",
+    pro: ["Актёр","Переводчик","PR менеджер","Репортёр","Писатель","Учитель","Менеджер по продажам","HR","Психолог","Журналист"],
+    uniKey: "История",
+    entPairs: [
+      { s1:"🇰🇿 Казахский/Русский язык", s2:"📖 Казахская/Русская литература", label:"Журналист / Писатель / Переводчик / PR" },
+      { s1:"🌍 Всемирная история", s2:"⚖️ Основы права", label:"HR / Менеджер / Психолог" },
+      { s1:"🌍 Иностранный язык", s2:"🌐 Всемирная история", label:"Переводчик / Дипломатия / Международные отношения" }
+    ]
+  },
+  "ENFJ": {
+    name: "IDEALIST TEACHER", ruName: "УЧИТЕЛЬ", color: "#2d7d46",
+    traits: [{en:"EXTROVERSION",ru:"Экстраверсия",sub:"Знакомитесь с новыми людьми"},{en:"INTUITION",ru:"Интуитивный",sub:"Теории и грандиозные идеи"},{en:"FEELING",ru:"Чувствующий",sub:"Решения на основе ценностей"},{en:"JUDGING",ru:"Планирующий",sub:"Организованны, придерживаетесь расписания"}],
+    desc: "Вы чутко улавливаете мысли и потребности людей. Становитесь хорошим советником. Чётко осознаёте что важно для вас.",
+    pro: ["Менеджер по продажам","Косметолог","Воспитатель","Историк","Психолог","Социолог","Юрист","Учитель","Таргетолог","HR менеджер"],
+    uniKey: "История",
+    entPairs: [
+      { s1:"🌍 Всемирная история", s2:"⚖️ Основы права", label:"Учитель / Юрист / Историк / HR" },
+      { s1:"🇰🇿 Казахский язык", s2:"📖 Казахская литература", label:"Учитель казахского / Воспитатель" },
+      { s1:"🌍 Всемирная история", s2:"🌏 География", label:"Социолог / Психолог / Педагогика" }
+    ]
+  },
+  "ISTP": {
+    name: "ARTISAN CRAFTER", ruName: "ВИРТУОЗ", color: "#b8860b",
+    traits: [{en:"INTROVERSION",ru:"Интроверсия",sub:"Заряжаетесь в уединении"},{en:"SENSING",ru:"Сенсорик",sub:"Практичность и здравое отношение"},{en:"THINKING",ru:"Мыслящий",sub:"Логичные и объективные решения"},{en:"PERCEIVING",ru:"Ищущий",sub:"Спонтанны и открыты"}],
+    desc: "Вы молчаливый наблюдатель, верящий в эффективность усилий. Любите решать проблемы «на ходу». Гибкий и приспосабливающийся.",
+    pro: ["Коммерческий дизайн","Строительный инспектор","Стоматолог","Фельдшер","Фотограф","Разработчик ПО","Системный аналитик","Риелтор","Биолог","Геолог"],
+    uniKey: "Физика",
+    entPairs: [
+      { s1:"📐 Математика", s2:"⚡ Физика", label:"Инженер / Системный аналитик / Строительный инспектор" },
+      { s1:"📐 Математика", s2:"💻 Информатика", label:"Разработчик ПО / IT" },
+      { s1:"🧪 Химия", s2:"⚡ Физика", label:"Стоматолог / Фельдшер / Геолог" }
+    ]
+  },
+  "ISFP": {
+    name: "ARTISAN COMPOSER", ruName: "АРТИСТ", color: "#b8860b",
+    traits: [{en:"INTROVERSION",ru:"Интроверсия",sub:"Заряжаетесь в уединении"},{en:"SENSING",ru:"Сенсорик",sub:"Практичность и здравое отношение"},{en:"FEELING",ru:"Ощущающий",sub:"Решения на основе ценностей"},{en:"PERCEIVING",ru:"Ищущий",sub:"Спонтанны и открыты"}],
+    desc: "Вы чуткий, внимательный и добрый человек, наслаждающийся жизнью в настоящем моменте. Скромны и предпочитаете избегать лишнего внимания.",
+    pro: ["Модельер","Дизайнер интерьера","Косметолог","Флорист","Фармацевт","Медсестра","Физиотерапевт","Диетолог","Учитель","Переводчик"],
+    uniKey: "Биология",
+    entPairs: [
+      { s1:"🧬 Биология", s2:"🧪 Химия", label:"Фармацевт / Медсестра / Диетолог / Физиотерапевт" },
+      { s1:"🎨 Творческий экзамен", s2:"🎨 Творческий экзамен", label:"Модельер / Дизайнер интерьера / Флорист" },
+      { s1:"🇰🇿 Казахский/Русский язык", s2:"📖 Казахская/Русская литература", label:"Учитель / Переводчик" }
+    ]
+  },
+  "ESTP": {
+    name: "ARTISAN PERFORMER", ruName: "ДЕЛЕЦ", color: "#b8860b",
+    traits: [{en:"EXTROVERSION",ru:"Экстраверсия",sub:"Знакомитесь с новыми людьми"},{en:"SENSING",ru:"Сенсорик",sub:"Практичность и здравое отношение"},{en:"THINKING",ru:"Мыслящий",sub:"Логичные и объективные решения"},{en:"PERCEIVING",ru:"Ищущий",sub:"Спонтанны и открыты"}],
+    desc: "Вы любящий веселье и энергичный человек, живущий настоящим. Гибкий и легко адаптируемый, думаете о совершенствовании процессов.",
+    pro: ["Менеджер по продажам","Риелтор","Страховой агент","Биолог","Фитнес-инструктор","Пожарный","Пилот авиалинии","Инженер-строитель","Финансовый аналитик","Учитель"],
+    uniKey: "Физика",
+    entPairs: [
+      { s1:"📐 Математика", s2:"⚡ Физика", label:"Инженер-строитель / Пилот авиалинии" },
+      { s1:"📐 Математика", s2:"🌏 География", label:"Финансовый аналитик / Риелтор / Экономист" },
+      { s1:"🧬 Биология", s2:"🌏 География", label:"Биолог / Фитнес-инструктор / Эколог" }
+    ]
+  },
+  "ESFP": {
+    name: "ARTISAN PERFORMER", ruName: "РАЗВЛЕКАТЕЛЬ", color: "#b8860b",
+    traits: [{en:"EXTROVERSION",ru:"Экстраверсия",sub:"Знакомитесь с новыми людьми"},{en:"SENSING",ru:"Сенсорик",sub:"Практичность и здравое отношение"},{en:"FEELING",ru:"Чувствующий",sub:"Решения на основе ценностей"},{en:"PERCEIVING",ru:"Ищущий",sub:"Спонтанны и открыты"}],
+    desc: "Вы жизнерадостный и энергичный человек, вносящий лёгкость во всё что делаете. Тактичны и чувствительны к нуждам других людей.",
+    pro: ["Учитель","Медсестра","Физиотерапевт","Стоматолог","Педиатр","Косметолог","PR менеджер","Риелтор","Дизайнер интерьера","Ресторанное дело"],
+    uniKey: "Биология",
+    entPairs: [
+      { s1:"🧬 Биология", s2:"🧪 Химия", label:"Медсестра / Педиатр / Стоматолог / Физиотерапевт" },
+      { s1:"🌍 Всемирная история", s2:"⚖️ Основы права", label:"PR менеджер / Учитель / Риелтор" },
+      { s1:"🎨 Творческий экзамен", s2:"🎨 Творческий экзамен", label:"Дизайнер интерьера / Ресторанное дело / Косметолог" }
+    ]
+  },
+  "ISTJ": {
+    name: "GUARDIAN INSPECTOR", ruName: "АДМИНИСТРАТОР", color: "#1a6b8a",
+    traits: [{en:"INTROVERSION",ru:"Интроверсия",sub:"Заряжаетесь в уединении"},{en:"SENSING",ru:"Сенсорик",sub:"Практичность и здравое отношение"},{en:"THINKING",ru:"Мыслящий",sub:"Логичные и объективные решения"},{en:"JUDGING",ru:"Планирующий",sub:"Организованны, придерживаетесь расписания"}],
+    desc: "Вы спокойны, ответственны и надёжны, с глубоким уважением к фактам. Настойчивы в выполнении задач. Добросовестно выполняете обязанности.",
+    pro: ["Бухгалтер/Аудитор","Финансовый аналитик","Налоговый инспектор","Инженер-строитель","Химик","Фармацевт","Дантист","Врач","Хирург","Адвокат"],
+    uniKey: "Химия",
+    entPairs: [
+      { s1:"🧪 Химия", s2:"⚡ Физика", label:"Химик / Фармацевт / Дантист / Врач / Хирург" },
+      { s1:"📐 Математика", s2:"⚡ Физика", label:"Инженер-строитель / Налоговый инспектор" },
+      { s1:"🌍 Всемирная история", s2:"⚖️ Основы права", label:"Адвокат / Аудитор / Бухгалтер" }
+    ]
+  },
+  "ISFJ": {
+    name: "GUARDIAN PROTECTOR", ruName: "ЗАЩИТНИК", color: "#1a6b8a",
+    traits: [{en:"INTROVERSION",ru:"Интроверсия",sub:"Заряжаетесь в уединении"},{en:"SENSING",ru:"Сенсорик",sub:"Практичность и здравое отношение"},{en:"FEELING",ru:"Чувствующий",sub:"Решения на основе ценностей"},{en:"JUDGING",ru:"Планирующий",sub:"Организованны, придерживаетесь расписания"}],
+    desc: "Вы лояльны, надёжны и преданы людям. Ставите потребности других выше своих и делаете всё чтобы обеспечить благополучие близких.",
+    pro: ["Социальный работник","Стоматолог","Дантист","Фармацевт","Учитель","Хирург","Медсестра","HR специалист","Финансовый консультант","Страховой агент"],
+    uniKey: "Биология",
+    entPairs: [
+      { s1:"🧬 Биология", s2:"🧪 Химия", label:"Медсестра / Стоматолог / Фармацевт / Хирург" },
+      { s1:"🇰🇿 Казахский язык", s2:"📖 Казахская литература", label:"Учитель / Воспитатель / Соц. работник" },
+      { s1:"🌍 Всемирная история", s2:"⚖️ Основы права", label:"HR специалист / Финансовый консультант" }
+    ]
+  },
+  "ESTJ": {
+    name: "GUARDIAN SUPERVISION", ruName: "МЕНЕДЖЕР", color: "#1a6b8a",
+    traits: [{en:"EXTROVERSION",ru:"Экстраверсия",sub:"Знакомитесь с новыми людьми"},{en:"SENSING",ru:"Сенсорик",sub:"Практичность и здравое отношение"},{en:"THINKING",ru:"Мыслящий",sub:"Логичные и объективные решения"},{en:"JUDGING",ru:"Планирующий",sub:"Организованны, придерживаетесь расписания"}],
+    desc: "Вы объективны, прямолинейны и планируете свою работу. Нацелены на результат, эффективны и компетентны. Уважаете традиции и структуру.",
+    pro: ["Страховой агент","Менеджер по продажам","Риелтор","Кредитный аналитик","Бюджетный аналитик","Финансист","Военный","Пилот авиалинии","Адвокат","Директор школы"],
+    uniKey: "Экономика",
+    entPairs: [
+      { s1:"📐 Математика", s2:"🌏 География", label:"Финансист / Экономист / Менеджмент / Бизнес" },
+      { s1:"🌍 Всемирная история", s2:"⚖️ Основы права", label:"Адвокат / Директор / Военный / Страховой агент" },
+      { s1:"📐 Математика", s2:"⚡ Физика", label:"Пилот авиалинии / Инженер / Кредитный аналитик" }
+    ]
+  },
+  "ESFJ": {
+    name: "GUARDIAN PROVIDER", ruName: "КОНСУЛ", color: "#1a6b8a",
+    traits: [{en:"EXTROVERSION",ru:"Экстраверсия",sub:"Знакомитесь с новыми людьми"},{en:"SENSING",ru:"Сенсорик",sub:"Практичность и здравое отношение"},{en:"FEELING",ru:"Чувствующий",sub:"Решения на основе ценностей"},{en:"JUDGING",ru:"Планирующий",sub:"Организованны, придерживаетесь расписания"}],
+    desc: "Вам нравится организовывать людей и ситуации для выполнения задач. Добросовестны и ответственны. Очень доброжелательны и ставите нужды других выше своих.",
+    pro: ["Учитель","Социальный работник","Полицейский","Юрист","Косметолог","Гостиничный бизнес","Семейный врач","Медсестра","Физиотерапевт","HR менеджер"],
+    uniKey: "Биология",
+    entPairs: [
+      { s1:"🧬 Биология", s2:"🧪 Химия", label:"Семейный врач / Медсестра / Физиотерапевт" },
+      { s1:"🌍 Всемирная история", s2:"⚖️ Основы права", label:"Учитель / Юрист / HR менеджер / Полицейский" },
+      { s1:"🧬 Биология", s2:"🌏 География", label:"Эколог / Гостиничный бизнес / Соц. работник" }
+    ]
+  }
+};
+// ============================================================
+// STATE
+// ============================================================
+let state = {
+  screen: "welcome", // welcome | quiz | contact | loading | result | shared
+  idx: 0,
+  scores: {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0},
+  user: {},
+  resultId: null,
+  aiText: "",
+  sharedData: null
+};
+
+function getApp(){ return document.getElementById("app"); }
+
+// ── CHECK URL FOR SHARED RESULT ──
+function checkSharedResult(){
+  const params = new URLSearchParams(window.location.search);
+  const rid = params.get("r");
+  if(rid){
+    state.screen = "loading";
+    state.resultId = rid;
+    render();
+    loadSharedResult(rid);
+  }
+}
+
+async function loadSharedResult(id){
+  try{
+    const url = SHEETS_URL + "?type=get&id=" + encodeURIComponent(id);
+    const res = await fetch(url);
+    const data = await res.json();
+    if(data.success && data.result){
+      state.sharedData = data.result;
+      state.scores = data.result.scores;
+      state.user = { name: data.result.name, phone: "", grade: data.result.grade };
+      state.aiText = data.result.aiText || "";
+      state.screen = "result";
+      render();
+    } else {
+      getApp().innerHTML = `<div class="error-card"><div style="font-size:48px;margin-bottom:16px">🔍</div><div class="form-title">Результат не найден</div><p style="color:var(--muted);margin:12px 0 24px">Ссылка устарела или недействительна.</p><button class="btn-primary" onclick="restart()">Пройти тест →</button></div>`;
+    }
+  } catch(e){
+    getApp().innerHTML = `<div class="error-card"><div class="form-title">Ошибка загрузки</div><button class="btn-primary" onclick="restart()" style="margin-top:20px">Пройти тест →</button></div>`;
+  }
+}
+
+// ── RENDER ROUTER ──
+function render(){
+  const app = getApp();
+  if(state.screen === "welcome") renderWelcome(app);
+  else if(state.screen === "quiz") renderQuestion(app);
+  else if(state.screen === "contact") renderContact(app);
+  else if(state.screen === "loading") renderLoader(app);
+  else if(state.screen === "result") renderResult(app);
+}
+
+// ── WELCOME ──
+function renderWelcome(app){
+  app.innerHTML = `
+  <div class="welcome-hero">
+    <div class="hero-tag">🧠 Международная методика MBTI</div>
+    <h1 class="hero-title">Узнай кем<br>тебе стать<br>и <span class="hl">куда поступить</span></h1>
+    <p class="hero-sub">40 вопросов · Один из 16 типов личности · Профессии + профильные предметы ЕНТ + вузы РК с баллами</p>
+
+    <div class="stats-strip">
+      <div class="stat-chip"><div class="stat-num">16</div><div class="stat-lbl">Типов личности</div></div>
+      <div class="stat-chip"><div class="stat-num">40</div><div class="stat-lbl">Вопросов</div></div>
+      <div class="stat-chip"><div class="stat-num">~8</div><div class="stat-lbl">Минут</div></div>
+      <div class="stat-chip"><div class="stat-num">30+</div><div class="stat-lbl">Профессий</div></div>
+      <div class="stat-chip"><div class="stat-num">РК</div><div class="stat-lbl">Базы ЕНТ</div></div>
+    </div>
+
+    <button class="btn-primary" onclick="startQuiz()">Начать тест бесплатно →</button>
+
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="trust-icon">🔗</div>
+        <div class="trust-title">Сохраняемый результат</div>
+        <div class="trust-desc">Получишь уникальную ссылку — отправь родителям или вернись позже</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">🎓</div>
+        <div class="trust-title">Вузы РК с баллами</div>
+        <div class="trust-desc">Порог участия и примерный балл гранта по данным ЕНТ 2024</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">📚</div>
+        <div class="trust-title">Пары предметов ЕНТ</div>
+        <div class="trust-desc">Какие 2 профильных предмета выбрать под конкретные специальности</div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon">🤖</div>
+        <div class="trust-title">ИИ-анализ от Aiplus</div>
+        <div class="trust-desc">Персональные рекомендации нейросети с учётом твоего типа и класса</div>
+      </div>
+    </div>
+
+    <div class="why-block">
+      <div class="why-title">Почему 40 вопросов — это точно?</div>
+      <div class="why-list">
+        <div class="why-item"><div class="why-dot"></div>MBTI измеряет 4 шкалы — по 10 вопросов на каждую. Это научный минимум для надёжного результата</div>
+        <div class="why-item"><div class="why-dot"></div>Конкуренты задают 100 вопросов — но 60 из них дублируются для статистики. Мы убрали лишнее</div>
+        <div class="why-item"><div class="why-dot"></div>MBTI используют Google, Apple и McKinsey для подбора команд. 40 вопросов достаточно для определения типа</div>
+        <div class="why-item"><div class="why-dot"></div>Результат сохраняется по уникальной ссылке — всегда можно вернуться или отправить родителям</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function startQuiz(){
+  state.screen = "quiz";
+  state.idx = 0;
+  state.scores = {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0};
+  render();
+}
+
+// ── QUESTION ──
+function renderQuestion(app){
+  const q = QUESTIONS[state.idx];
+  const pct = Math.round((state.idx / QUESTIONS.length)*100);
+  app.innerHTML = `
+    <div class="prog-wrap"><div class="prog-fill" style="width:${pct}%"></div></div>
+    <div class="prog-label"><span>${q.dim}</span><span>${state.idx+1} / ${QUESTIONS.length}</span></div>
+    <div class="q-card">
+      <div class="q-dim">${q.dim}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="opts">
+        <button class="opt-btn" onclick="answer('${q.a}')"><span class="opt-let">А</span>${q.ta}</button>
+        <button class="opt-btn" onclick="answer('${q.b}')"><span class="opt-let">Б</span>${q.tb}</button>
+      </div>
+    </div>`;
+}
+
+function answer(key){
+  state.scores[key]++;
+  state.idx++;
+  if(state.idx >= QUESTIONS.length) state.screen = "contact";
+  render();
+}
+
+// ── CONTACT ──
+function renderContact(app){
+  app.innerHTML = `
+  <div class="form-card">
+    <div class="form-tag">✅ Тест завершён!</div>
+    <div class="form-title">Тип личности определён</div>
+    <p class="form-sub">Оставь контакты — получишь уникальную ссылку на результат, которую можно отправить родителям. Aiplus Шымкент свяжется для консультации.</p>
+    <input class="inp" id="iname" placeholder="Твоё имя" type="text" autocomplete="name">
+    <input class="inp" id="iphone" placeholder="+7 (___) ___-__-__" type="tel" autocomplete="tel">
+    <input class="inp" id="iclass" placeholder="Класс (например: 10 класс)" type="text">
+    <button class="btn-submit" id="sbtn" onclick="submitForm()">Получить результат и ссылку →</button>
+    <div class="privacy">🔒 Данные используются только для связи · Aiplus Шымкент</div>
+  </div>`;
+}
+
+function calcType(){
+  const s = state.scores;
+  return (s.E>=s.I?'E':'I')+(s.S>=s.N?'S':'N')+(s.T>=s.F?'T':'F')+(s.J>=s.P?'J':'P');
+}
+
+async function submitForm(){
+  const name = document.getElementById("iname").value.trim();
+  const phone = document.getElementById("iphone").value.trim();
+  const grade = document.getElementById("iclass").value.trim();
+  if(!name||!phone){ alert("Заполните имя и телефон!"); return; }
+
+  const btn = document.getElementById("sbtn");
+  btn.disabled = true;
+  btn.textContent = "Сохраняем...";
+
+  state.user = {name,phone,grade};
+  state.screen = "loading";
+  render();
+
+  const type = calcType();
+  const info = MBTI_INFO[type];
+  const prompt = `Студент: ${name}, класс: ${grade||'не указан'}, тип MBTI: ${type} (${info?.ruName||''}).
+Профессии: ${info?.pro?.slice(0,5).join(', ')}.
+Напомни: ЕНТ = 3 обязательных (Грамотность чтения, Математическая грамотность, История Казахстана) + 2 профильных на выбор.
+Дай рекомендации по 4 пунктам:
+1. Какие 2 ПРОФИЛЬНЫХ предмета выбрать (не упоминай Историю как профильный — она обязательная)
+2. На какой балл целиться (минимум 65, хорошо 80+)
+3. Топ-2 вуза РК по этим профессиям с проходным баллом ЕНТ
+4. Один мотивирующий совет для этого типа личности
+Пиши без markdown, коротко и конкретно, на русском.`;
+
+  let aiText = "";
+  let resultId = null;
+
+  // Step 1: save + AI in parallel
+  try{
+    const [saveRes, aiRes] = await Promise.all([
+      fetch(SHEETS_URL + "?type=save&name=" + encodeURIComponent(name) +
+        "&phone=" + encodeURIComponent(phone) +
+        "&grade=" + encodeURIComponent(grade) +
+        "&mbti=" + encodeURIComponent(type) +
+        "&scores=" + encodeURIComponent(JSON.stringify(state.scores))),
+      fetch(SHEETS_URL + "?type=generate&prompt=" + encodeURIComponent(prompt))
+    ]);
+
+    const saveData = await saveRes.json();
+    if(saveData.id) resultId = saveData.id;
+
+    const aiData = await aiRes.json();
+    if(aiData.success) aiText = aiData.result;
+  } catch(e){
+    aiText = "Обратись в Aiplus Шымкент за персональной консультацией по ЕНТ 2025!";
+  }
+
+  // Step 2: save AI text + get final result ID
+  if(resultId && aiText){
+    try{
+      await fetch(SHEETS_URL + "?type=saveai&id=" + encodeURIComponent(resultId) +
+        "&aitext=" + encodeURIComponent(aiText));
+    } catch(e){}
+  }
+
+  state.aiText = aiText;
+  state.resultId = resultId;
+
+  // Update URL without reload
+  if(resultId){
+    const newUrl = SITE_URL + "?r=" + resultId;
+    window.history.pushState({}, "", newUrl);
+  }
+
+  state.screen = "result";
+  render();
+}
+
+// ── LOADER ──
+function renderLoader(app){
+  const isShared = state.resultId && !state.user.name;
+  app.innerHTML = `
+  <div class="loader-wrap">
+    <div class="spinner"></div>
+    <div class="loader-title">${isShared ? 'Загружаем результат...' : 'Нейросеть Aiplus анализирует...'}</div>
+    <div class="loader-sub">${isShared ? 'Подождите немного' : 'Подбираем профессии, предметы и вузы'}</div>
+  </div>`;
+}
+
+// ── RESULT ──
+function renderResult(app){
+  const type = calcType();
+  const info = MBTI_INFO[type] || MBTI_INFO["INTP"];
+  const s = state.scores;
+  const unis = UNIVERSITIES[info.uniKey] || UNIVERSITIES["default"];
+  const shareUrl = SITE_URL + (state.resultId ? "?r=" + state.resultId : "");
+  const waTextParent = encodeURIComponent(
+    "Привет! Мой ребёнок прошёл профориентационный тест Aiplus. Тип личности: " + type +
+    ". Посмотрите результат: " + shareUrl
+  );
+
+  app.innerHTML = `<div class="result-wrap">
+
+  <!-- SHARE BAR -->
+  <div class="share-bar">
+    <div class="share-label">🔗 <span>Уникальная ссылка готова</span> — отправь родителям!</div>
+    <div class="share-btns">
+      <button class="btn-copy" id="copybtn" onclick="copyLink('${shareUrl}')">📋 Скопировать ссылку</button>
+      <a class="btn-wa" href="https://wa.me/?text=${waTextParent}" target="_blank">📱 Отправить в WhatsApp</a>
+    </div>
+  </div>
+
+  <!-- PERSONALITY SLIDE -->
+  <div class="slide">
+    <div class="slide-top" style="background:${info.color}">
+      <span>AIPLUS × 16 PERSONALITIES</span><span>ЕНТ 2025 · КАЗАХСТАН</span>
+    </div>
+    <div class="slide-body">
+      <div class="slide-left">
+        <div class="mbti-big" style="color:${info.color}">${type}</div>
+        <div class="mbti-name">${info.name} · ${info.ruName}</div>
+        <div class="mbti-desc">${info.desc}</div>
+        <div class="trait-grid">
+          ${info.traits.map(t=>`
+          <div class="trait-item">
+            <div class="trait-en" style="color:${info.color}">${t.en}</div>
+            <div class="trait-ru">${t.ru}</div>
+            <div class="trait-sub">${t.sub}</div>
+          </div>`).join('')}
+        </div>
+      </div>
+      <div class="slide-right">
+        <div class="pro-section">
+          <span class="pro-label" style="background:${info.color}">ТОП ПРОФЕССИИ</span>
+          <div class="pro-list">${info.pro.map(p=>`<div class="pro-item">· ${p}</div>`).join('')}</div>
+        </div>
+        <div class="score-bars">
+          <div class="bar-label">Ваш профиль по шкалам</div>
+          ${renderBars(s)}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ENT SUBJECTS -->
+  <div class="section-card">
+    <div class="sec-title">📚 Профильные предметы ЕНТ</div>
+    <div class="sec-sub">Профильные предметы выбираются парой — оба нужны для поступления</div>
+    <div class="oblig-box">
+      <b>📌 3 обязательных для всех:</b> Грамотность чтения · Математическая грамотность · История Казахстана<br>
+      <span style="color:#555;margin-top:4px;display:block;">+ 2 профильных предмета на твой выбор (пара под специальность)</span>
+    </div>
+    ${info.entPairs.map((pair,i)=>`
+    <div class="pair-card ${i===0?'top':''}">
+      <div class="pair-header">
+        <span class="pair-tag ${i===0?'main':'alt'}">Пара ${i+1}${i===0?' ⭐':''}</span>
+        <div class="pair-subjects">
+          <span class="pair-subj">${pair.s1}</span>
+          <span class="pair-plus">+</span>
+          <span class="pair-subj">${pair.s2}</span>
+        </div>
+      </div>
+      <div class="pair-prof">→ Для специальностей: <b>${pair.label}</b></div>
+    </div>`).join('')}
+    <details style="margin-top:14px;cursor:pointer;">
+      <summary style="font-size:13px;font-weight:700;color:var(--dark);padding:12px 16px;background:#f5f3ee;border-radius:10px;list-style:none;display:flex;justify-content:space-between;align-items:center;">
+        📋 Все официальные комбинации профильных предметов ЕНТ РК <span>▼</span>
+      </summary>
+      <div style="margin-top:8px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px;padding:4px 2px;">
+        ${[
+          ["🧬 Биология","🌏 География"],
+          ["🧬 Биология","🧪 Химия"],
+          ["🌍 Всемирная история","🌏 География"],
+          ["🌍 Всемирная история","⚖️ Основы права"],
+          ["🌏 География","🌍 Иностранный язык"],
+          ["🌍 Иностранный язык","🌐 Всемирная история"],
+          ["🇰🇿 Казахский язык","📖 Казахская литература"],
+          ["🇰🇿 Казахский/Русский язык","📖 Каз./Рус. литература"],
+          ["📐 Математика","🌏 География"],
+          ["📐 Математика","💻 Информатика"],
+          ["📐 Математика","⚡ Физика"],
+          ["📝 Русский язык","📖 Русская литература"],
+          ["🎨 Творческий экзамен","🎨 Творческий экзамен"],
+          ["🧪 Химия","⚡ Физика"]
+        ].map(p=>`<div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;font-weight:600;">${p[0]} + ${p[1]}</div>`).join('')}
+      </div>
+    </details>
+    <div class="disclaimer" style="margin-top:10px">
+      ℹ️ Максимум ЕНТ: <b>140 баллов</b>. Минимальный порог для гранта: <b>65 баллов</b>. Источник: МОН РК · univision.kz
+    </div>
+  </div>
+
+  <!-- SCORE SCALE -->
+  <div class="section-card">
+    <div class="sec-title">🎯 Шкала баллов ЕНТ 2025</div>
+    <div class="sec-sub">Ориентиры по итогам поступления 2024 года</div>
+    <div style="background:#eee;border-radius:8px;height:14px;overflow:hidden;margin:10px 0 4px;">
+      <div style="height:100%;width:100%;background:linear-gradient(90deg,#ff6b35 0%,#ffd700 46%,#7bc67e 70%,#4a90d9 100%);border-radius:8px;"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);font-weight:600;margin-bottom:12px;">
+      <span>0</span><span>65</span><span>80</span><span>100</span><span>140</span>
+    </div>
+    <div class="scale-zones">
+      <div class="zone z-red"><div class="zone-score">0–64</div><div class="zone-label">Ниже порога</div></div>
+      <div class="zone z-orange"><div class="zone-score">65–79</div><div class="zone-label">Порог участия</div></div>
+      <div class="zone z-green"><div class="zone-score">80–99</div><div class="zone-label">Хороший грант</div></div>
+      <div class="zone z-blue"><div class="zone-score">100–140</div><div class="zone-label">Топ-вузы</div></div>
+    </div>
+  </div>
+
+  <!-- UNIVERSITIES -->
+  <div class="section-card">
+    <div class="sec-title">🎓 Рекомендуемые вузы РК</div>
+    <div class="sec-sub">Подобраны по профилю · Данные ЕНТ 2024–2025</div>
+    ${unis.map(u=> u.threshold===0 ? `
+    <div class="uni-card">
+      <div class="uni-top">
+        <div><div class="uni-name">${u.name}</div><div class="uni-city">📍 ${u.city}</div></div>
+        <div style="background:#555;color:#fff;font-size:11px;font-weight:700;padding:5px 11px;border-radius:20px;">Отд. отбор</div>
+      </div>
+      <div class="uni-tags">${u.faculties.map(f=>`<span class="uni-tag">${f}</span>`).join('')}</div>
+      ${u.tip?`<div class="uni-tip">💡 ${u.tip}</div>`:''}
+    </div>` : `
+    <div class="uni-card">
+      <div class="uni-top">
+        <div><div class="uni-name">${u.name}</div><div class="uni-city">📍 ${u.city}</div></div>
+        <div class="score-pills">
+          <div class="pill-threshold">📋 Порог: ${u.threshold}+</div>
+          <div class="pill-grant">🏆 ~Грант: ${u.grant}+</div>
+        </div>
+      </div>
+      <div class="uni-tags">${u.faculties.map(f=>`<span class="uni-tag">${f}</span>`).join('')}</div>
+      ${u.tip?`<div class="uni-tip">💡 ${u.tip}</div>`:''}
+    </div>`).join('')}
+    <div class="disclaimer" style="margin-top:12px">
+      📋 <b>Порог</b> — минимальный балл для подачи заявки на грант.<br>
+      🏆 <b>~Грант</b> — примерный балл, который в среднем давал грант в 2024 (не гарантия — зависит от конкурса).<br>
+      Источники: МОН РК, univision.kz. Уточняйте ежегодно.
+    </div>
+  </div>
+
+  <!-- AI BLOCK -->
+  <div class="ai-block">
+    <div class="ai-hdr"><div class="ai-dot"></div><div class="ai-ttl">🤖 Персональный анализ Aiplus</div></div>
+    <div class="ai-body">${state.aiText || 'Обратитесь в Aiplus Шымкент за персональной консультацией!'}</div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-block">
+    <div class="cta-title">Готов к ЕНТ 2025? 🚀</div>
+    <div class="cta-sub">Запишись на <b>бесплатную диагностику</b> в Aiplus Шымкент — составим персональный план подготовки</div>
+    <a class="btn-wa-big" href="https://wa.me/77072374305?text=${encodeURIComponent('Привет! Прошёл тест Aiplus, мой тип: '+type+'. Хочу записаться на бесплатную диагностику')}" target="_blank">
+      📱 Записаться в WhatsApp
+    </a>
+  </div>
+
+  <!-- SHARE AGAIN -->
+  <div class="share-bar" style="margin-bottom:20px">
+    <div class="share-label">Поделись результатом с <span>родителями</span></div>
+    <div class="share-btns">
+      <button class="btn-copy" id="copybtn2" onclick="copyLink2('${shareUrl}')">📋 Скопировать ссылку</button>
+      <a class="btn-wa" href="https://wa.me/?text=${waTextParent}" target="_blank">📱 Отправить маме/папе</a>
+    </div>
+  </div>
+
+  <button class="restart-btn" onclick="restart()">← Пройти тест снова</button>
+  </div>`;
+}
+
+function renderBars(s){
+  const pairs=[{l:'E',r:'I',ln:'Экстра',rn:'Интро'},{l:'S',r:'N',ln:'Сенсор',rn:'Интуит'},{l:'T',r:'F',ln:'Логика',rn:'Чувства'},{l:'J',r:'P',ln:'Планир',rn:'Ищущий'}];
+  return pairs.map(p=>{
+    const tot=s[p.l]+s[p.r];
+    const lp=tot>0?Math.round(s[p.l]/tot*100):50;
+    return `<div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:700;margin-bottom:3px">
+        <span>${p.l} ${p.ln} ${lp}%</span><span>${100-lp}% ${p.rn} ${p.r}</span>
+      </div>
+      <div style="background:#eee;border-radius:5px;height:8px;overflow:hidden">
+        <div style="height:100%;width:${lp}%;background:#1a1a1a;border-radius:5px"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function copyLink(url){
+  navigator.clipboard.writeText(url).then(()=>{
+    const btn = document.getElementById("copybtn");
+    if(btn){ btn.textContent="✅ Скопировано!"; btn.classList.add("copy-done"); setTimeout(()=>{ btn.textContent="📋 Скопировать ссылку"; btn.classList.remove("copy-done"); },2000); }
+  }).catch(()=>{ prompt("Скопируй ссылку:", url); });
+}
+function copyLink2(url){
+  navigator.clipboard.writeText(url).then(()=>{
+    const btn = document.getElementById("copybtn2");
+    if(btn){ btn.textContent="✅ Скопировано!"; btn.classList.add("copy-done"); setTimeout(()=>{ btn.textContent="📋 Скопировать ссылку"; btn.classList.remove("copy-done"); },2000); }
+  }).catch(()=>{ prompt("Скопируй ссылку:", url); });
+}
+
+function restart(){
+  window.history.pushState({}, "", window.location.pathname);
+  state = { screen:"welcome", idx:0, scores:{E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0}, user:{}, resultId:null, aiText:"", sharedData:null };
+  render();
+}
+
+// ── INIT ──
+checkSharedResult();
+if(state.screen === "welcome") render();
+</script>
+</body>
+</html>
